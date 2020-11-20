@@ -197,10 +197,15 @@
 
             draw();
 
-            setTimeout(enterFrame, 1000 / FPS);
+            timeoutId = setTimeout(enterFrame, 1000 / FPS);
         }
 
+        var timeoutId = -1;
+
         function doStart() {
+
+            clearTimeout(timeoutId);
+
             reset();
 
             speedA = Number(getValue("inputSpeedA"));
