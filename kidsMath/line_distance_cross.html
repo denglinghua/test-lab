@@ -1,0 +1,184 @@
+﻿<html lang="en-US">
+
+<head>
+    <title>直线相遇问题</title>
+    <meta charset="UTF-8">
+    <style>
+        .pItem {
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body id="scroll-top" style="font-size: 10pt; font-family:'Microsoft YaHei'">
+    <div style="float:left; margin: 20px 5px 5px 5px">
+        <div class="pItem"><span style="color:green">绿色速度：</span><input type="text" size="8" value="100" id="inputSpeedA">米/分钟</div>
+        <div class="pItem"><span style="color:red">红色速度：</span><input type="text" size="8" value="50" id="inputSpeedB">米/分钟</div>
+        <div class="pItem">两点距离：<input type="text" size="8" value="1000" id="inputDistance">米</div>
+        <div class="pItem">
+            <input type="button" value="开始" onclick="doStart();">
+            <input type="button" value="停止" onclick="doStop();">
+        </div>
+    </div>
+    <div style="float:left;">
+        <canvas id="canvas1" width="200" height="200"></canvas>
+    </div>
+    <script>
+        const W = 600;
+        const L = W - 40;
+        const START_X = (W - L) / 2;
+        const END_X = L + (W - L) / 2;
+        const Y = 50;
+        const FPS = 20;
+        const FRAME_TIME = 2; //seconds
+
+        const canvas = document.getElementById("canvas1");
+        const context = canvas.getContext("2d");
+        canvas.width = W;
+        canvas.height = W;
+        context.lineWidth = 15;
+        context.lineCap = "round";
+        context.font = "18px Arial";
+
+        class Runner {
+            constructor(color, direction) {
+                this.color = color;
+                this.speed = 100;
+                this.direction = direction;
+                this.startX = this.direction == "left" ? END_X : START_X;
+                this.ratio = 0.5;
+
+                this.time = 0;
+                this.distance = 0;
+                this.lineTo = 0;
+
+                this.cross = false;
+            }
+
+            reset() {
+                this.time = 0;
+                this.distance = 0;
+
+                this.cross = false;
+            }
+
+            setSpeed(speed, speedSum) {
+                this.speed = speed;
+                this.ratio = this.speed / speedSum;
+            }
+
+            calcMoveData() {
+                this.time += FRAME_TIME;
+                this.distance = this.speed * this.time / 60;
+                this.lineTo = this.startX + (this.distance / totalDistance * L) * (this.direction == "left" ? -1 : 1);
+                this.cross = this.distance >= this.ratio * totalDistance;
+            }
+        }
+
+        let runnerA = new Runner('#008000', "right");
+        let runnerB = new Runner('#FF0000', "left");
+        let totalDistance = 1000;
+
+        let stop = false;
+
+        drawBackgroundLine();
+
+        function draw() {
+            clear();
+
+            drawBackgroundLine();
+
+            runnerA.calcMoveData();
+            runnerB.calcMoveData();
+
+            moveAlongLine(runnerA);
+            moveAlongLine(runnerB);
+
+            showDistance(runnerA);
+            showDistance(runnerB);
+
+            if (runnerA.cross) {
+                doStop();
+            }
+        }
+
+        function clear() {
+            context.clearRect(0, 0, W, W);
+            context.shadowBlur = 0;
+        }
+
+        function drawBackgroundLine() {
+            context.beginPath();
+            context.strokeStyle = "#DCDCDC" //grey
+            context.moveTo(START_X, Y);
+            context.lineTo(END_X, Y);
+            context.stroke();
+        }
+
+        function moveAlongLine(runner) {
+            context.shadowColor = runner.color;
+            context.beginPath();
+            context.shadowBlur = 10;
+            context.moveTo(runner.startX, Y);
+            context.lineTo(runner.lineTo, Y);
+            context.stroke();
+        }
+
+        function showDistance(runner) {
+            context.beginPath();
+            let x = runner.lineTo + (runner.direction == "left" ? 1 : -1) * 20; // avoid overlay
+            context.fillStyle = runner.color;
+            context.shadowColor = runner.color;
+            context.fillText(Math.round(runner.distance), x, Y);
+            //context.fillText(angle, x, y);
+            context.stroke();
+        }
+
+        function checkStop() {
+            return stop;
+        }
+
+        function enterFrame() {
+            if (checkStop()) return;
+
+            draw();
+
+            timeoutId = setTimeout(enterFrame, 1000 / FPS);
+        }
+
+        var timeoutId = -1;
+
+        function doStart() {
+
+            clearTimeout(timeoutId);
+
+            reset();
+
+            speedA = Number(getValue("inputSpeedA"));
+            speedB = Number(getValue("inputSpeedB"));
+            totalDistance = Number(getValue("inputDistance"));
+
+            runnerA.setSpeed(speedA, speedA + speedB);
+            runnerB.setSpeed(speedB, speedA + speedB);
+
+            enterFrame();
+        }
+
+        function reset() {
+            stop = false;
+
+            runnerA.reset();
+            runnerB.reset();
+        }
+
+        function getValue(id) {
+            return document.getElementById(id).value;
+        }
+
+        function doStop() {
+            stop = true;
+        }
+
+    </script>
+</body>
+</html>
