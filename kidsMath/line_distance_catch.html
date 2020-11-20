@@ -4,19 +4,19 @@
     <title>直线追击问题</title>
     <meta charset="UTF-8">
     <style>
-        .pItem {
-            height: 30px;
-        }
+        .pItem { height: 40px; }
+        input[type="text"] { font-family: Arial, sans-serif; font-size:medium;  width: 50px;}
+        input[type="button"] { font-family: Arial, sans-serif; font-size:medium;  width: 50px; margin-right: 10px;}
     </style>
 </head>
 
 <body id="scroll-top" style="font-size: 10pt; font-family:'Microsoft YaHei'">
     <div style="float:left; margin: 20px 5px 5px 5px">
-        <div class="pItem"><span style="color:green">绿色速度（快）：</span><input type="text" size="8" value="100"
-                id="inputSpeedFast">米/分钟</div>
-        <div class="pItem"><span style="color:red">红色速度（慢）：</span><input type="text" size="8" value="50"
-                id="inputSpeedSlow">米/分钟</div>
-        <div class="pItem">双方相隔：<input type="text" size="8" value="300" id="inputDistance">米</div>
+        <div class="pItem"><span style="color:green">绿色速度（快）：</span><input type="text" value="100"
+                id="inputSpeedFast">&nbsp;米/分钟</div>
+        <div class="pItem"><span style="color:red">红色速度（慢）：</span><input type="text" value="50"
+                id="inputSpeedSlow">&nbsp;米/分钟</div>
+        <div class="pItem">双方相距：<input type="text" value="300" id="inputDistance">&nbsp;米</div>
         <div class="pItem">
             <input type="button" value="开始" onclick="doStart();">
             <input type="button" value="停止" onclick="doStop();">
