@@ -1,0 +1,238 @@
+﻿<html lang="en-US">
+
+<head>
+    <title>圆形相遇问题</title>
+    <meta charset="UTF-8">
+    <style>
+        .pItem {
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body id="scroll-top" style="font-size: 10pt; font-family:'Microsoft YaHei'">
+    <div style="float:left; margin: 20px 5px 5px 5px">
+        <div class="pItem"><span style="color:green">绿色速度：</span><input type="text" size="8" value="100" id="inputSpeedA">米/分钟</div>
+        <div class="pItem"><span style="color:red">红色速度：</span><input type="text" size="8" value="50" id="inputSpeedB">米/分钟</div>
+        <div class="pItem">
+            <input type="radio" name="radioCutoffOption" value="time" checked onclick="doCutoffOption(this);">
+            跑<input type="text" size="8" value="10" id="inputCutoffTime">分钟结束
+        </div>
+        <div class="pItem">
+            <input type="radio" name="radioCutoffOption" value="distance" onclick="doCutoffOption(this);">
+            跑<input type="text" size="8" value="1000" id="inputCutoffDistance">米结束
+        </div>
+        <div class="pItem">
+            <input type="button" value="开始" onclick="doStart();">
+            <input type="button" value="停止" onclick="doStop();">
+        </div>
+    </div>
+    <div style="float:left;">
+        <canvas id="canvas1" width="200" height="200"></canvas>
+    </div>
+    <script>
+        const W = 480;
+        const R = W / 2 - 30;
+        const FPS = 20;
+        const ONE_CIRCLE = 450;
+        const FRAME_TIME = 2; //seconds
+
+        let [centerX, centerY] = [W / 2, W / 2];
+        const canvas = document.getElementById("canvas1");
+        const context = canvas.getContext("2d");
+        canvas.width = W;
+        canvas.height = W;
+        context.lineWidth = 15;
+        context.lineCap = "round";
+        context.font = "18px Arial";
+
+        class Runner {
+            constructor(color, counterclockwise) {
+                this.color = color;
+                this.speed = 100;
+                this.counterclockwise = counterclockwise;
+                this.ratio = 0.5;
+
+                this.startAngle = 0;
+                this.endAngle = 0;
+                this.circleTime = 0;
+                this.circleDistance = 0;
+                this.totalTime = 0;
+                this.totalDistance = 0;
+
+                this.finishCircle = false;
+                this.running = true;
+            }
+
+            reset() {
+                this.startAngle = 0;
+                this.circleTime = 0;
+                this.circleDistance = 0;
+                this.totalTime = 0;
+                this.totalDistance = 0;
+
+                this.finishCircle = false;
+                this.running = true;
+            }
+
+            setSpeed(speed, speedSum) {
+                this.speed = speed;
+                this.ratio = this.speed / speedSum;
+            }
+
+            calcMoveData() {
+                this.circleTime += FRAME_TIME;
+                this.circleDistance = this.speed * this.circleTime / 60;
+                this.totalTime += FRAME_TIME;
+                this.totalDistance += FRAME_TIME / 60 * this.speed;
+                let moveAngle = this.circleDistance / ONE_CIRCLE * Math.PI * 2;
+                this.endAngle = this.counterclockwise ? this.startAngle + (2 * Math.PI - moveAngle) : this.startAngle + moveAngle;
+                this.finishCircle = this.circleDistance >= this.ratio * ONE_CIRCLE;
+            }
+
+            checkCircleFinished() {
+                if (this.finishCircle) {
+                    this.startAngle = this.endAngle;
+                    this.circleTime = 0;
+                }
+            }
+
+            checkRunning() {
+                if (cutoffOption == "time") {
+                    this.running = (this.totalTime / 60 < cutoffTime);
+                }
+
+                if (cutoffOption == "distance") {
+                    this.running = (this.totalDistance < cutoffDistance);
+                }
+            }
+        }
+
+        let runnerA = new Runner('#008000', true);
+        let runnerB = new Runner('#FF0000', false);
+        let cutoffTime = 10;
+        let cutoffDistance = 1000;
+        let cutoffOption = "time";
+
+        let stop = false;
+
+        drawBackgroundCircle();
+
+        function draw() {
+            clear();
+
+            drawBackgroundCircle();
+
+            runnerA.calcMoveData();
+            runnerB.calcMoveData();
+
+            moveAlongCircle(runnerA);
+            moveAlongCircle(runnerB);
+
+            showDistance(runnerA);
+            showDistance(runnerB);
+
+            runnerA.checkCircleFinished();
+            runnerB.checkCircleFinished();
+
+            runnerA.checkRunning();
+            runnerB.checkRunning();
+
+            if (!runnerA.running && runnerB.running) {
+                runnerB.setSpeed(runnerB.speed, runnerB.speed);
+            }
+
+            if (!runnerB.running && runnerA.running) {
+                runnerA.setSpeed(runnerA.speed, runnerA.speed);
+            }
+
+            if (!runnerA.running && !runnerB.running) {
+                doStop();
+            }
+        }
+
+        function clear() {
+            context.clearRect(0, 0, W, W);
+            context.shadowBlur = 0;
+        }
+
+        function drawBackgroundCircle() {
+            context.beginPath();
+            context.strokeStyle = "#DCDCDC" //grey
+            context.arc(centerX, centerY, R, 0, Math.PI * 2, true);
+            context.stroke();
+        }
+
+        function moveAlongCircle(runner) {
+            if (!runner.running) return;
+            context.shadowColor = runner.color;
+            context.beginPath();
+            context.shadowBlur = 10;
+            context.arc(centerX, centerY, R, runner.startAngle, runner.endAngle, runner.counterclockwise);
+            context.stroke();
+        }
+
+        function showDistance(runner) {
+            if (!runner.running) return;
+            let [x, y] = getArcPoint(runner.endAngle);
+            context.beginPath();
+            y = y + (runner.counterclockwise ? 1 : -1) * 10; // avoid overlay
+            context.fillStyle = runner.color;
+            context.shadowColor = runner.color;
+            context.fillText(Math.round(runner.circleDistance), x, y);
+            //context.fillText(angle, x, y);
+            context.stroke();
+        }
+
+        function getArcPoint(angle) {
+            return [centerX + Math.cos(angle) * R, centerY + Math.sin(angle) * R];
+        }
+
+        function checkStop() {
+            return stop;
+        }
+
+        function enterFrame() {
+            if (checkStop()) return;
+
+            draw();
+
+            setTimeout(enterFrame, 1000 / FPS);
+        }
+
+        function doStart() {
+            reset();
+
+            speedA = Number(getValue("inputSpeedA"));
+            speedB = Number(getValue("inputSpeedB"));
+            cutoffTime = Number(getValue("inputCutoffTime"));
+            cutoffDistance = Number(getValue("inputCutoffDistance"));
+
+            runnerA.setSpeed(speedA, speedA + speedB);
+            runnerB.setSpeed(speedB, speedA + speedB);
+
+            enterFrame();
+        }
+
+        function reset() {
+            stop = false;
+
+            runnerA.reset();
+            runnerB.reset();
+        }
+
+        function getValue(id) {
+            return document.getElementById(id).value;
+        }
+
+        function doStop() {
+            stop = true;
+        }
+
+        function doCutoffOption(evtObj) {
+            cutoffOption = evtObj.value;
+        }
+
+    </script>
+</body>
+</html>
