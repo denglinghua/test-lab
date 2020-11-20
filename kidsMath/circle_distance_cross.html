@@ -115,6 +115,7 @@
         let cutoffOption = "time";
 
         let stop = false;
+        let timer = 0;
 
         drawBackgroundCircle();
 
@@ -131,6 +132,8 @@
 
             showDistance(runnerA);
             showDistance(runnerB);
+
+            showTime();
 
             runnerA.checkCircleFinished();
             runnerB.checkCircleFinished();
@@ -184,6 +187,15 @@
             context.stroke();
         }
 
+        function showTime() {
+            timer += FRAME_TIME;
+            context.beginPath();
+            context.fillStyle = "#0000FF"; //blue
+            context.shadowBlur = 0;
+            context.fillText(Number(timer / 60).toFixed(2) + " MINS", (W / 2 - R), (W / 2 - R));
+            context.stroke();
+        }
+
         function getArcPoint(angle) {
             return [centerX + Math.cos(angle) * R, centerY + Math.sin(angle) * R];
         }
@@ -221,6 +233,7 @@
 
         function reset() {
             stop = false;
+            timer = 0;
 
             runnerA.reset();
             runnerB.reset();
@@ -240,4 +253,5 @@
 
     </script>
 </body>
+
 </html>

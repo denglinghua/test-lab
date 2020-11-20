@@ -78,6 +78,7 @@
         let runnerA = new Runner('#008000', "right");
         let runnerB = new Runner('#FF0000', "left");
         let totalDistance = 1000;
+        let timer = 0;
 
         let stop = false;
 
@@ -96,6 +97,8 @@
 
             showDistance(runnerA);
             showDistance(runnerB);
+
+            showTime();
 
             if (runnerA.cross) {
                 doStop();
@@ -128,9 +131,18 @@
             context.beginPath();
             let x = runner.lineTo + (runner.direction == "left" ? 1 : -1) * 20; // avoid overlay
             context.fillStyle = runner.color;
-            context.shadowColor = runner.color;
+            context.shadowBlur = 0;
             context.fillText(Math.round(runner.distance), x, Y);
             //context.fillText(angle, x, y);
+            context.stroke();
+        }
+
+        function showTime() {
+            timer += FRAME_TIME;
+            context.beginPath();
+            context.fillStyle = "#0000FF"; //blue
+            context.shadowBlur = 0;
+            context.fillText(Number(timer / 60).toFixed(2) + " 分钟", START_X, Y + 40);
             context.stroke();
         }
 
@@ -166,6 +178,7 @@
 
         function reset() {
             stop = false;
+            timer = 0;
 
             runnerA.reset();
             runnerB.reset();
