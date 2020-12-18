@@ -24,7 +24,7 @@ function print_args() {
 
 set_voice
 print_args
-say_message "this is $this_time_voice"
+say_message "Hi, this is $this_time_voice"
 sleep 1
 say_message "Dictation will be start, please listen careflly"
 sleep 2
