@@ -3,7 +3,7 @@
 script_file="$1"
 repeat_times=${2:-1}
 pause_time=15 #5 seconds
-voices=(Alex Fred Samantha Victoria Karen Fiona)
+voices=(Alex Fred Samantha Victoria Karen Fiona Daniel)
 this_time_voice=Alex
 
 function set_voice() {
