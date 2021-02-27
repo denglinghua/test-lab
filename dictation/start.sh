@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /Users/deng/Desktop/dictation_text/
+cd /Users/deng/Desktop/education/dictation/
 echo
 echo
 echo
