@@ -5,6 +5,6 @@ will_be_start="听写开始了，请听仔细了"
 over="听写结束，再见！"
 
 function say_message() {
-  say -v $this_time_voice $1
+  say -v $this_time_voice -r 120 $1
   #echo $1
 }

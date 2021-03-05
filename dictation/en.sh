@@ -5,6 +5,6 @@ will_be_start="Dictation will be start, please listen careflly"
 over="The dictation is over, good_bye"
 
 function say_message() {
-  say -v $this_time_voice -r 160 $1
+  say -v $this_time_voice -r 130 $1
   #echo $1
 }
