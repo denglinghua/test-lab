@@ -31,6 +31,7 @@ sleep 2
 
 title="$(head -n 1 $script_file)";
 say_message "$title"
+sleep 3
 
 body=""
 if [[ "$shuffle" == "y" ]]; then
