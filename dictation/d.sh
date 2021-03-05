@@ -1,11 +1,12 @@
 #!/bin/sh
 
-script_file="$1"
-repeat_times=${2:-1}
-shuffle=${3:-"y"}
+lang="$1"
+script_file="$2"
+repeat_times=${3:-1}
+shuffle=${4:-"y"}
 pause_time=15 #15 seconds
-voices=(Alex Fred Samantha Victoria Karen Fiona Daniel)
-this_time_voice=Alex
+
+source $lang.sh
 
 function set_voice() {
   let random_voice=$RANDOM%${#voices[*]}
@@ -13,23 +14,19 @@ function set_voice() {
   this_time_voice=${voices[$random_voice]}
 }
 
-function say_message() {
-  say -v $this_time_voice -r 160 $1
-  #echo $1
-}
-
 function print_args() {
   echo "file  : $script_file"
   echo "repeat: $repeat_times"
   echo "shuffle: $shuffle"
   echo "voice : $this_time_voice"
+  echo "Language : $lang"
 }
 
 set_voice
 print_args
-say_message "Hi, this is $this_time_voice"
+say_message "$greeting$this_time_voice"
 sleep 1
-say_message "Dictation will be start, please listen careflly"
+say_message "$will_be_start"
 sleep 2
 
 title="$(head -n 1 $script_file)";
@@ -54,4 +51,4 @@ do
   done
 done
 
-say_message "The dictation is over, good_bye"
+say_message "$over"
