@@ -1,4 +1,4 @@
-voices=(Alex Fred Samantha Victoria Karen Fiona Daniel)
+voices=(Alex Fred Samantha Victoria Karen Fiona Daniel Kate Oliver Serena Bruce Kathy Tom)
 this_time_voice=Alex
 greeting="Hi, this is "
 will_be_start="Dictation will be start, please listen careflly"
