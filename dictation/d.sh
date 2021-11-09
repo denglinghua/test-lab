@@ -4,7 +4,7 @@ lang="$1"
 script_file="$2"
 repeat_times=${3:-1}
 shuffle=${4:-"y"}
-pause_time=15 #15 seconds
+pause_time=5 #5 seconds
 
 source $lang.sh
 
