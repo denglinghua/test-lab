@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scale to Fit</title>
+</head>
+<body>
+  <label for="myfile">Select a image:</label>
+  <input type="file" id="fileOrglImg" name="fileOrglImg" accept="image/png, image/gif, image/jpeg" />
+  <br/><br/>
+  <label>Aspect Ratio:</label>
+  <select id="selRatio">
+    <option value="">450*300</option>
+    <option value="">750*450</option>
+  </select>
+  <input type="button" id="btnAdjust" value="Adjust" />
+  <br/>
+  <img id="imgOrgl" alt="" />
+  <br/>
+  <canvas id="canvas" style="background-color: grey;"></canvas>
+  <script>
+    const imgOrgl = document.getElementById('imgOrgl');
+
+    // display image after file selected
+    document.getElementById('fileOrglImg').onchange = function (evt) {
+        var tgt = evt.target || window.event.srcElement, files = tgt.files;
+    
+        // FileReader support
+        if (FileReader && files && files.length) {
+            var fr = new FileReader();
+            fr.onload = function () {
+                imgOrgl.src = fr.result;
+            }
+            fr.readAsDataURL(files[0]);
+        } else {
+            // Not supported
+        }
+    }
+
+    // adjust image
+    document.getElementById('btnAdjust').onclick = function (evt) {
+        imgOrgl.setAttribute("title", imgOrgl.width + 'x' + imgOrgl.height);
+        var selRatio = document.getElementById('selRatio');
+        var selRatioText = selRatio.options[selRatio.selectedIndex].text;
+        console.info(selRatioText);
+        var [w, h] = selRatioText.split('*');
+        scaleToFit(imgOrgl, w, h);
+    }
+
+    function scaleToFit(img, w, h){
+        var canvas = document.getElementById('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        // get the scale
+        var scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+        // get the top left position of the image
+        var x = (canvas.width / 2) - (img.width / 2) * scale;
+        var y = (canvas.height / 2) - (img.height / 2) * scale;
+        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+    }
+  </script>
+</body>
+</html>
