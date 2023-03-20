@@ -82,7 +82,7 @@
                     <select onChange={(e) => setSelected(options[e.target.selectedIndex])}>
                         {options.map((v, ix, arr) => { return <option key={ix}>{v}</option> })}
                     </select>
-                    <button onClick={handleClick}>Adjust</button>
+                    <button onClick={handleClick}>Scale to Fit</button>
                 </label>
                 <br />
                 <canvas ref={canvasRef} className="canvas"></canvas>
