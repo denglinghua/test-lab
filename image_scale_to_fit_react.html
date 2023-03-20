@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scale to Fit React</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+    import React, { StrictMode } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { useState } from 'react';
+    import { useRef } from 'react';
+
+    function ImageSelector({ onImageSelect }) {
+
+        function handleChange(event) {
+            var tgt = event.target || window.event.srcElement, files = tgt.files;
+
+            // FileReader support
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function () {
+                    onImageSelect(fr.result);
+                }
+                fr.readAsDataURL(files[0]);
+            } else {
+                // Not supported
+            }
+        }
+
+        return (
+            <div>
+                <label>Select a image: </label>
+                <input type="file" onChange={handleChange} />
+            </div>
+        );
+    }
+
+    function Adjust({ orglImage }) {
+
+        const options = ["450*300", "750*400"];
+        const [selectedOption, setSelected] = useState(options[0]);
+
+        const canvasRef = useRef(null);
+
+        function handleClick(event) {
+            console.info(selectedOption);
+            var [w, h] = selectedOption.split('*');
+            scaleToFit(orglImage.current, w, h);
+        }
+
+        function scaleToFit(img, w, h) {
+            let canvas = canvasRef.current;
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            // get the scale
+            var scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+            // get the top left position of the image
+            var x = (canvas.width / 2) - (img.width / 2) * scale;
+            var y = (canvas.height / 2) - (img.height / 2) * scale;
+            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+        }
+
+        return (
+            <div>
+                <label>
+                    Aspect Ratio:
+                    <select onChange={(e) => setSelected(options[e.target.selectedIndex])}>
+                        {options.map((v, ix, arr) => { return <option key={ix}>{v}</option> })}
+                    </select>
+                    <button onClick={handleClick}>Adjust</button>
+                </label>
+                <br />
+                <canvas ref={canvasRef} className="canvas"></canvas>
+            </div>
+        );
+    }
+
+    let App = function AppUI() {
+        const orglImage = useRef(null);
+        const[imageSize, setImageSize] = useState({width:0, height:0});
+
+        function onImageSelect(image) {
+            let img = orglImage.current;
+            img.src = image;
+            setImageSize({width:img.width, height:img.height})
+        }
+
+        return (
+            <>
+                <ImageSelector onImageSelect={onImageSelect} />
+                <Adjust orglImage={orglImage} />
+                <div>
+                    <img ref={orglImage} title={imageSize.width + '*' + imageSize.height} />
+                </div>
+            </>
+        );
+    }
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(
+        <StrictMode>
+            <App />
+        </StrictMode>
+    );
+</script>
+
+<style>
+.canvas {
+  background:#CCCC;
+  border: 1px solid #999;
+}
+</style>
+
+</html>
