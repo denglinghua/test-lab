@@ -2,12 +2,12 @@
 <html>
 
 <head>
-    <title>Seats</title>
+    <title>Asian Heritage Month Session VIP Seats</title>
     <style>
         body {
-            font-size: 10pt;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
+
         .stage {
             background-color:darkgrey;
             height: 50px;
@@ -21,52 +21,38 @@
 
         .seatsTable {
             table-layout: fixed;
-            font-size: 10pt;
         }
 
         .seatsTable td {
             word-wrap: break-word;
             width: 60px;
         }
+
+        .seatNameRow td {
+            height: 80px;
+        }
         
-
-        .leftSeat {
-            table-layout: fixed;
-            vertical-align: text-top;
-        }
-
-        .middleSeat {
-            table-layout: fixed;
-            vertical-align: text-top;
-        }
-
-        .rightSeat {
-            table-layout: fixed;
-            vertical-align: text-top;
-        }
 
         .aisle {
             background-color: gray;
             width: 40pt;
         }
+
         .seatNo {
-            height: 9px;
+            height: 9pt;
             text-align: center;
         }
 
-        .na {
+        .noSeat {
             background-color: gray;
-            height: 80px;
         }
 
-        .avail {
+        .seatVacant {
             background-color: greenyellow;
-            height: 80px;
         }
         
-        .in {
+        .seatOccupied {
             background-color:orange;
-            height: 80px;
             font-size: 8pt;
             overflow: hidden;
             text-align: center;
@@ -78,11 +64,11 @@
         <td colspan="5" class="stage">stage</td>
     </tr>
     <tr>
-        <td id="leftSeats" class="leftSeat"></td>
+        <td id="leftSeats"></td>
         <td class="aisle"></td>
-        <td id="middleSeats" class="middleSeat"></td>
+        <td id="middleSeats"></td>
         <td class="aisle"></td>
-        <td id="rightSeats" class="rightSeat"></td>
+        <td id="rightSeats"></td>
     </tr>
 </table>
 <script src="vip_seats.js"></script>
@@ -131,13 +117,14 @@
     function generateTable(row, info) {
         const tbl = document.createElement("table");
         tbl.className = "seatsTable";
-        tbl.style.width = info.max * 60 + 'px';
-        tbl.style.height = info.qty.length * 50 + 'px';
+        tbl.style.width = info.max * 60 + 20 + 'px';
+        //tbl.style.height = info.qty.length * 50 + 'px';
         const tblBody = document.createElement("tbody");
 
         for (let i = 0; i < row; i++) {
             const rowNo = document.createElement("tr");
             const rowName = document.createElement("tr");
+            rowName.className = "seatNameRow"
 
             for (let j = 0; j < info.max; j++) {
                 const cellNo = document.createElement("td");
@@ -147,10 +134,10 @@
                 if (info.idx(j) + 1 <= rowMax) {
                     const seatNo = info.no(i, j);
                     cellNo.appendChild(document.createTextNode(seatNo));
-                    cellName.className = 'avail';
+                    cellName.className = 'seatVacant';
                     seat_no_index[seatNo] = cellName;
                 } else {
-                    cellName.className = 'na';
+                    cellName.className = 'noSeat';
                 }
                 rowNo.appendChild(cellNo);
                 rowName.appendChild(cellName);
@@ -185,7 +172,7 @@
     function markOneSeat(seatNo, name) {
         console.info(seatNo);
         let cellName = seat_no_index[seatNo];
-        cellName.className = "in";
+        cellName.className = "seatOccupied";
         cellName.innerHTML = name;
     }
 </script>
