@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Seats</title>
+    <style>
+        body {
+            font-size: 10pt;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .stage {
+            background-color: blue;
+            height: 50px;
+            text-align: center;
+        }
+
+        .seatsArea {
+            width: 100%;
+        }
+
+        .leftSeat {
+            width: 24%;
+            vertical-align: text-top;
+        }
+
+        .middleSeat {
+            width: 50%;
+            vertical-align: text-top;
+        }
+
+        .rightSeat {
+            width: 24%;
+            vertical-align: text-top;
+        }
+
+        .aisle {
+            background-color: gray;
+            width: 40pt;
+        }
+
+        .na {
+            background-color: gray;
+            width: 70px;
+            height: 75px;
+        }
+
+        .avail {
+            background-color: greenyellow;
+            width: 70px;
+            height: 75px;
+        }
+        
+        .in {
+            background-color:orange;
+            width: 70px;
+            height: 75px;
+        }
+    </style>
+</head>
+<table class="seatsArea">
+    <tr>
+        <td colspan="5" class="stage">stage</td>
+    </tr>
+    <tr>
+        <td id="leftSeats" class="leftSeat"></td>
+        <td class="aisle"></td>
+        <td id="middleSeats" class="middleSeat"></td>
+        <td class="aisle"></td>
+        <td id="rightSeats" class="rightSeat"></td>
+    </tr>
+</table>
+<script src="vip_seats.js"></script>
+<script>
+
+    rows = 'ABCDEFGHJKLMNOPQRSTUVWXYZ'; //No I?
+
+    const leftInfo =
+    {
+        id: "leftSeats",
+        max: 7,
+        qty: [6, 7, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5],
+        idx: function (col) { return 7 - col - 1; },
+        no: function (row, col) { return rows[row] + [(7 - col - 1) * 2 + 1]; }
+    }
+
+    const middleInfo =
+    {
+        id: "middleSeats",
+        max: 15,
+        qty: [10, 11, 11, 12, 12, 12, 13, 13, 13, 14, 14, 14, 15, 15],
+        idx: function (col) { return col; },
+        no: function (row, col) { return rows[row] + (col + 101); }
+    }
+
+    const rightInfo =
+    {
+        id: "rightSeats",
+        max: 7,
+        qty: [6, 7, 6, 6, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5],
+        idx: function (col) { return col; },
+        no: function (row, col) { return rows[row] + (col + 1) * 2; }
+    }
+
+    const seat_no_index = {};
+
+    generateSeats(leftInfo);
+    generateSeats(middleInfo);
+    generateSeats(rightInfo);
+    markSeats();
+
+    function generateSeats(info) {
+        document.getElementById(info.id).appendChild(generateTable(13, info));
+    }
+
+    function generateTable(row, info) {
+        const tbl = document.createElement("table");
+        const tblBody = document.createElement("tbody");
+
+        for (let i = 0; i < row; i++) {
+            const row = document.createElement("tr");
+
+            for (let j = 0; j < info.max; j++) {
+                const cell = document.createElement("td");
+                const rowMax = info.qty[i];
+                if (info.idx(j) + 1 <= rowMax) {
+                    const seatNo = info.no(i, j);
+                    cell.appendChild(document.createTextNode(seatNo));
+                    cell.className = 'avail';
+                    seat_no_index[seatNo] = [tbl, i, j];
+                } else {
+                    cell.className = 'na';
+                }
+                row.appendChild(cell);
+            }
+
+            tblBody.appendChild(row);
+        }
+
+        tbl.appendChild(tblBody);
+
+        return tbl;
+    }
+
+    function markSeats() {
+        let in_seats = [];
+        for (const item of vip_seats) {
+            let seats = item.Seats;
+            console.info(seats);
+            for(const s of seats.split(",")) {
+                let seatNo = s.trim();
+                if (in_seats.includes(seatNo)) {
+                    alert(seatNo);
+                    return;
+                }
+                in_seats.push(seatNo);
+                markOneSeat(seatNo, item.Name);
+            }
+        }
+    }
+
+    function markOneSeat(seatNo, name) {
+        console.info(seatNo);
+        let idx = seat_no_index[seatNo];
+        let tbl = idx[0];
+        let row = idx[1];
+        let col = idx[2];
+        let cell = tbl.rows[row].cells[col];
+        cell.className = "in";
+        cell.innerHTML = name;
+    }
+</script>
+
+<body>
+</body>
+
+</html>
