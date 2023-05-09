@@ -9,27 +9,39 @@
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
         .stage {
-            background-color: blue;
+            background-color:darkgrey;
             height: 50px;
             text-align: center;
+            font-size: 28pt;
+            font-weight: bold;
         }
 
         .seatsArea {
             width: 100%;
         }
 
+        .seatsTable {
+            table-layout: fixed;
+            font-size: 9pt;
+        }
+
+        .seatsTable td {
+            word-wrap: break-word;
+        }
+        
+
         .leftSeat {
-            width: 24%;
+            table-layout: fixed;
             vertical-align: text-top;
         }
 
         .middleSeat {
-            width: 50%;
+            table-layout: fixed;
             vertical-align: text-top;
         }
 
         .rightSeat {
-            width: 24%;
+            table-layout: fixed;
             vertical-align: text-top;
         }
 
@@ -37,23 +49,31 @@
             background-color: gray;
             width: 40pt;
         }
+        .seatNo {
+            width: 60px;
+            height: 9px;
+            text-align: center;
+        }
 
         .na {
             background-color: gray;
-            width: 70px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
         }
 
         .avail {
             background-color: greenyellow;
-            width: 70px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
         }
         
         .in {
             background-color:orange;
-            width: 70px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
+            font-size: 7pt;
+            overflow: hidden;
+            text-align: center;
         }
     </style>
 </head>
@@ -114,26 +134,34 @@
 
     function generateTable(row, info) {
         const tbl = document.createElement("table");
+        tbl.className = "seatsTable";
+        tbl.style.width = info.max * 60 + 'px';
+        tbl.style.height = info.qty.length * 50 + 'px';
         const tblBody = document.createElement("tbody");
 
         for (let i = 0; i < row; i++) {
-            const row = document.createElement("tr");
+            const rowNo = document.createElement("tr");
+            const rowName = document.createElement("tr");
 
             for (let j = 0; j < info.max; j++) {
-                const cell = document.createElement("td");
+                const cellNo = document.createElement("td");
+                const cellName = document.createElement("td");
+                cellNo.className = "seatNo";
                 const rowMax = info.qty[i];
                 if (info.idx(j) + 1 <= rowMax) {
                     const seatNo = info.no(i, j);
-                    cell.appendChild(document.createTextNode(seatNo));
-                    cell.className = 'avail';
-                    seat_no_index[seatNo] = [tbl, i, j];
+                    cellNo.appendChild(document.createTextNode(seatNo));
+                    cellName.className = 'avail';
+                    seat_no_index[seatNo] = cellName;
                 } else {
-                    cell.className = 'na';
+                    cellName.className = 'na';
                 }
-                row.appendChild(cell);
+                rowNo.appendChild(cellNo);
+                rowName.appendChild(cellName);
             }
 
-            tblBody.appendChild(row);
+            tblBody.appendChild(rowNo);
+            tblBody.appendChild(rowName);
         }
 
         tbl.appendChild(tblBody);
@@ -160,13 +188,9 @@
 
     function markOneSeat(seatNo, name) {
         console.info(seatNo);
-        let idx = seat_no_index[seatNo];
-        let tbl = idx[0];
-        let row = idx[1];
-        let col = idx[2];
-        let cell = tbl.rows[row].cells[col];
-        cell.className = "in";
-        cell.innerHTML = name;
+        let cellName = seat_no_index[seatNo];
+        cellName.className = "in";
+        cellName.innerHTML = name;
     }
 </script>
 
