@@ -79,31 +79,28 @@
     const leftInfo =
     {
         id: "leftSeats",
-        max: 7,
-        qty: [6, 7, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5],
-        idx: function (col) { return 7 - col - 1; },
-        no: function (row, col) { return rows[row] + [(7 - col - 1) * 2 + 1]; }
+        rowSeats: [6, 7, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5],
+        colIndex: function (col, max) { return max - col - 1; },
+        index2No: function (row, col, max) { return rows[row] + [(max - col - 1) * 2 + 1]; }
     }
 
     const middleInfo =
     {
         id: "middleSeats",
-        max: 15,
-        qty: [10, 11, 11, 12, 12, 12, 13, 13, 13, 14, 14, 14, 15, 15],
-        idx: function (col) { return col; },
-        no: function (row, col) { return rows[row] + (col + 101); }
+        rowSeats: [10, 11, 11, 12, 12, 12, 13, 13, 13, 14, 14, 14, 15, 15],
+        colIndex: function (col, max) { return col; },
+        index2No: function (row, col, max) { return rows[row] + (col + 101); }
     }
 
     const rightInfo =
     {
         id: "rightSeats",
-        max: 7,
-        qty: [6, 7, 6, 6, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5],
-        idx: function (col) { return col; },
-        no: function (row, col) { return rows[row] + (col + 1) * 2; }
+        rowSeats: [6, 7, 6, 6, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5],
+        colIndex: function (col, max) { return col; },
+        index2No: function (row, col, max) { return rows[row] + (col + 1) * 2; }
     }
 
-    const seat_no_index = {};
+    const seatNo2Cell= {};
 
     generateSeats(leftInfo);
     generateSeats(middleInfo);
@@ -111,31 +108,33 @@
     markSeats();
 
     function generateSeats(info) {
-        document.getElementById(info.id).appendChild(generateTable(13, info));
+        document.getElementById(info.id).appendChild(generateTable(info));
     }
 
-    function generateTable(row, info) {
+    function generateTable(info) {
+        const maxSeats = Math.max(...info.rowSeats);
+        const rows = info.rowSeats.length;
         const tbl = document.createElement("table");
         tbl.className = "seatsTable";
-        tbl.style.width = info.max * 60 + 20 + 'px';
-        //tbl.style.height = info.qty.length * 50 + 'px';
+        tbl.style.width = maxSeats * 60 + 20 + 'px';
+        //tbl.style.height = rows * 50 + 'px';
         const tblBody = document.createElement("tbody");
 
-        for (let i = 0; i < row; i++) {
+        for (let i = 0; i < rows - 1; i++) {
             const rowNo = document.createElement("tr");
             const rowName = document.createElement("tr");
             rowName.className = "seatNameRow"
 
-            for (let j = 0; j < info.max; j++) {
+            for (let j = 0; j < maxSeats; j++) {
                 const cellNo = document.createElement("td");
                 const cellName = document.createElement("td");
                 cellNo.className = "seatNo";
-                const rowMax = info.qty[i];
-                if (info.idx(j) + 1 <= rowMax) {
-                    const seatNo = info.no(i, j);
+                const rowMax = info.rowSeats[i];
+                if (info.colIndex(j, maxSeats) + 1 <= rowMax) {
+                    const seatNo = info.index2No(i, j, maxSeats);
                     cellNo.appendChild(document.createTextNode(seatNo));
                     cellName.className = 'seatVacant';
-                    seat_no_index[seatNo] = cellName;
+                    seatNo2Cell[seatNo] = cellName;
                 } else {
                     cellName.className = 'noSeat';
                 }
@@ -171,7 +170,7 @@
 
     function markOneSeat(seatNo, name) {
         console.info(seatNo);
-        let cellName = seat_no_index[seatNo];
+        let cellName = seatNo2Cell[seatNo];
         cellName.className = "seatOccupied";
         cellName.innerHTML = name;
     }
