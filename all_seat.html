@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Asian Heritage Month Session VIP Seats</title>
+    <title>Asian Heritage Month Celebration Seats</title>
     <style>
         body {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -32,7 +32,6 @@
             height: 30px;
         }
         
-
         .aisle {
             background-color: gray;
             width: 20px;
@@ -44,7 +43,7 @@
         }
 
         .noSeat {
-            background-color: gray;
+            background-color: white;
         }
 
         .seatVacant {
@@ -75,6 +74,9 @@
 <script>
 
     const rows = 'ABCDEFGHJKLMNPQRS';
+    // if changed, css need change accordingly
+    const seatW = 30;
+    const seatH = 30;
     let total = 0;
     let occupied = 0;
 
@@ -119,7 +121,8 @@
         const rows = info.rowSeats.length;
         const tbl = document.createElement("table");
         tbl.className = "seatsTable";
-        tbl.style.width = maxSeats * 30 + 'px';
+        tbl.style.width = maxSeats * seatW + 'px';
+        // tbl.style.height = rows * seatH + 'px';
         const tblBody = document.createElement("tbody");
 
         for (let i = 0; i < rows; i++) {

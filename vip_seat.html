@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Asian Heritage Month Session VIP Seats</title>
+    <title>Asian Heritage Month Celebration VIP Seats</title>
     <style>
         body {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -25,7 +24,7 @@
 
         .seatsTable td {
             word-wrap: break-word;
-            width: 60px;
+            width: 70px;
         }
 
         .seatNameRow td {
@@ -39,12 +38,13 @@
         }
 
         .seatNo {
+            height: 10px;
             font-size: 9pt;
             text-align: center;
         }
 
         .noSeat {
-            background-color: gray;
+            background-color: white;
         }
 
         .seatVacant {
@@ -75,6 +75,9 @@
 <script>
 
     const rows = 'ABCDEFGHJKLMNPQRS';
+    // if changed, css need change accordingly
+    const seatW = 70;
+    const seatH = 80;
 
     const leftInfo =
     {
@@ -116,7 +119,8 @@
         const rows = info.rowSeats.length;
         const tbl = document.createElement("table");
         tbl.className = "seatsTable";
-        tbl.style.width = maxSeats * 60 + 'px';
+        tbl.style.width = maxSeats * seatW + 'px';
+        tbl.style.height = rows * (seatH + 10) + 'px';
         const tblBody = document.createElement("tbody");
 
         for (let i = 0; i < rows; i++) {
