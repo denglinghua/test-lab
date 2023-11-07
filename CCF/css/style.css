@@ -407,7 +407,7 @@ body {
 
 .team .row .card .info span {
     font-size: 1.8rem;
-    color: #00bfff;
+    color: #FC8B01;
 }
 
 .team .row .card .info .icons a {
@@ -451,7 +451,7 @@ body {
 }
 
 .team .row .card::before {
-    background: #00bfff;
+    background: #FC8B01;
     top: -3rem;
     right: -4rem;
 }
