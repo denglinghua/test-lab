@@ -1,25 +1,66 @@
+import java.util.List;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        Mancala ml = new Mancala();
-        showBoard(ml);
+        App app = new App();
+        // app.start();
+        app.startCompare();
+    }
 
-        System.out.println("\nRandom moves:\n");
+    private Mancala ml = new Mancala();
+    private MancalaAI ai = new MancalaAI();
+    private FileLogger logger = new FileLogger("ml.txt");
+    private FileLogger aiLogger = new FileLogger("ai.txt");
+
+    private void startCompare() {
+        log(showBoard(ml.getBoard()));
+        aiLog(showBoard(ai.getBoard()));
+
+        log("\nStart random moves...\n");
+        aiLog("\nStart AI moves...\n");
+
         while (!ml.isGameOver()) {
-            randomMove(ml);
+            int movePit = randomMove();
+            if(movePit >= 0) {
+                // ai just follow human's movie
+                moveAI(movePit);
+            }
         }
     }
 
-    private static void showBoard(Mancala ml) {
-        int[] board = ml.getBoard();
-        System.out.println("  " + board[12] + " " + board[11] + " " + board[10] + " " + board[9] + " " + board[8] + " " + board[7]);
-        System.out.println(board[13] + "               " + board[6]);
-        System.out.println("  " + board[0] + " " + board[1] + " " + board[2] + " " + board[3] + " " + board[4] + " " + board[5]);
+    private void log(String message) {
+        logger.log(message);
     }
 
-    private static void randomMove(Mancala ml) {
+    private void aiLog(String message) {
+        aiLogger.log(message);
+    }
+
+    private void start() {
+        log(showBoard(ml.getBoard()));
+
+        log("\nStart random moves...\n");
+        
+        while (!ml.isGameOver()) {
+            randomMove();
+        }
+    }
+
+    private String showBoard(int[] board) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("  " + board[12] + " " + board[11] + " " + board[10] + " " + board[9] + " " + board[8] + " " + board[7]);
+        sb.append("\n");
+        sb.append(board[13] + "               " + board[6]);
+        sb.append("\n");
+        sb.append("  " + board[0] + " " + board[1] + " " + board[2] + " " + board[3] + " " + board[4] + " " + board[5]);
+        return sb.toString();
+    }
+
+    private int randomMove() {
+        int movePit = -1;
         if (ml.isGameOver()) {
-            System.out.println("Game over!");
-            return;
+            log("Game over!");
+            return movePit;
         }
 
         int pitIndex = -1;
@@ -32,9 +73,17 @@ public class App {
 
         Mancala.MoveResult result = ml.move(pitIndex);
         if(result.valid) {
-            System.out.printf("%s\n", result);
-            showBoard(ml);
-            System.out.println();
+            log(String.format("%s", result));
+            log(showBoard(ml.getBoard()));
+            log("");
+            movePit = result.pit;
         }
+        return movePit;
+    }
+
+    private void moveAI(int pit) {
+        this.ai.makeMove(pit);
+        aiLog(showBoard(ai.getBoard()));
+        aiLog("");
     }
 }
