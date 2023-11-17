@@ -30,9 +30,11 @@ public class App {
             pitIndex = (int) (Math.random() * 6) + 7;
         }
 
-        ml.makeMove(pitIndex);
-        showBoard(ml);
-        System.out.println(currentTurn + "p : " + pitIndex);
-        System.out.println();
+        Mancala.MoveResult result = ml.move(pitIndex);
+        if(result.valid) {
+            System.out.printf("%s\n", result);
+            showBoard(ml);
+            System.out.println();
+        }
     }
 }
