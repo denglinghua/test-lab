@@ -6,6 +6,9 @@
 *.war
 *.ear
 
+# sensitive or environment-specific data
+vip_seats.js
+
 # Ignore build output directories
 /target/
 /bin/
