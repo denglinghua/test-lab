@@ -170,13 +170,13 @@
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
     <!-- navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-orange">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar"
                 aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse " id="myNavbar">
+            <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="navbar-nav ms-auto me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#about">ABOUT</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">SERVICES</a></li>
@@ -188,9 +188,9 @@
             <script>
                 const navLinks = document.querySelectorAll('.nav-item')
                 const menuToggle = document.getElementById('myNavbar')
-                const bsCollapse = new bootstrap.Collapse(menuToggle)
                 navLinks.forEach((l) => {
-                    l.addEventListener('click', () => { bsCollapse.toggle() })
+                    l.addEventListener('click', () => {
+                        menuToggle.classList.remove('show')})
                 })
             </script>
         </div>
@@ -428,7 +428,7 @@
                 <p><i class="bi bi-envelope"></i> myemail@something.com</p>
             </div>
             <div class="col-sm-7">
-                <div class="row">
+                <div class="row gy-3">
                     <div class="col-sm-6 form-group">
                         <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
                     </div>
