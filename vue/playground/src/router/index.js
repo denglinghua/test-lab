@@ -22,6 +22,11 @@ const router = createRouter({
       path: '/v-model',
       name: 'v-model',
       component: VModelView
+    },
+    {
+      path: '/lifecycle',
+      name: 'lifecycle',
+      component: () => import('../views/LifecycleView.vue')
     }
   ]
 })
