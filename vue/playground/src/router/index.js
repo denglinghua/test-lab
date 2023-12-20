@@ -27,6 +27,11 @@ const router = createRouter({
       path: '/lifecycle',
       name: 'lifecycle',
       component: () => import('../views/LifecycleView.vue')
+    },
+    {
+      path: '/context',
+      name: 'context',
+      component: () => import('../views/ContextView.vue')
     }
   ]
 })
