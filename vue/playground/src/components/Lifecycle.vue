@@ -5,16 +5,19 @@
 
 <script setup>
 import { onMounted, onUnmounted, defineProps, watch } from 'vue'
+import { useComp } from './comp';
+
+console.log('child setup first line')
 
 const props = defineProps({
     msg: String
 })
 
+useComp()
+
 watch(() => props.msg, (newVal, oldVal) => {
     console.log('msg changed@child ', oldVal, 'to', newVal)
 }, { immediate: true })
-
-console.log('child setup first line')
 
 onMounted(() => {
     console.log('child mounted')
