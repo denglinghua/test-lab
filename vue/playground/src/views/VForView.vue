@@ -18,6 +18,7 @@ const items = ref([
 
 function changeData() {
     for(const item of items.value) {
+        item.id = item.id + 1
         item.name = item.name + new Date().getTime()
     }
 }
