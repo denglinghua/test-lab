@@ -32,6 +32,11 @@ const router = createRouter({
       path: '/context',
       name: 'context',
       component: () => import('../views/ContextView.vue')
+    },
+    {
+      path: '/vfor',
+      name: 'vfor',
+      component: () => import('../views/VForView.vue')
     }
   ]
 })
