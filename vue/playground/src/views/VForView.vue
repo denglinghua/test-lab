@@ -1,9 +1,9 @@
 <template>
     <button @click="changeData">Change Data</button>
-    <br>
     <button @click="items.push({ id: 4, name: 'Jack' })">Add Data</button>
-    <br>
     <button @click="items.pop()">Remove Data</button>
+    <button @click="replaceData">Replace Data</button>
+    <br>
     <VFor :items="items" />
 </template>
 <script setup>
@@ -23,4 +23,12 @@ function changeData() {
     }
 }
 
+function replaceData() {
+    items.value = [
+        { id: 1, name: 'New John' },
+        { id: 2, name: 'New Jane' },
+        { id: 3, name: 'New Joe' }
+    ]
+}
+// if key is not provided, vue will use index as key
 </script>
