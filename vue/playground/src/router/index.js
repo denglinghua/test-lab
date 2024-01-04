@@ -37,6 +37,16 @@ const router = createRouter({
       path: '/vfor',
       name: 'vfor',
       component: () => import('../views/VForView.vue')
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: () => import('../views/ErrorView.vue')
+    },
+    {
+      path: '/event',
+      name: 'event',
+      component: () => import('../views/EventView.vue')
     }
   ]
 })
