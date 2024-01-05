@@ -47,6 +47,11 @@ const router = createRouter({
       path: '/event',
       name: 'event',
       component: () => import('../views/EventView.vue')
+    },
+    {
+      path: '/watchloop',
+      name: 'watchloop',
+      component: () => import('../views/WatchLoopView.vue')
     }
   ]
 })
