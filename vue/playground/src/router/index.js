@@ -52,6 +52,21 @@ const router = createRouter({
       path: '/watchloop',
       name: 'watchloop',
       component: () => import('../views/WatchLoopView.vue')
+    },
+    {
+      path: '/pvmodel',
+      name: 'pvmodel',
+      component: () => import('../views/PropertyVModel.vue')
+    },
+    {
+      path: '/viflifecycle',
+      name: 'viflifecycle',
+      component: () => import('../views/VIfLifecycle.vue')
+    },
+    {
+      path: '/propchange',
+      name: 'propchange',
+      component: () => import('../views/PropChangeView.vue')
     }
   ]
 })
