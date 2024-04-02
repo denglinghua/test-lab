@@ -1,5 +1,5 @@
-voices=(Ting-Ting)
-this_time_voice=Ting-Ting
+voices=(Tingting Meijia)
+this_time_voice=Tingting
 greeting="Hi, 你好，我是"
 will_be_start="听写开始了，请听仔细了"
 over="听写结束，再见！"
