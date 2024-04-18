@@ -106,10 +106,23 @@
 
     const seatNo2Cell= {};
 
+    function outputAllSeats() {
+        const sections = [leftInfo, middleInfo, rightInfo];
+        for (let i = 0; i < rows.length; i++) {
+            for (const section of sections) {
+                for (let j = 0; j < section.rowSeats[i]; j++) {
+                    console.info(section.index2No(i, j, section.rowSeats[i]));
+                }
+            }
+        }
+    }
+
+    outputAllSeats();
+
     generateSeats(leftInfo);
     generateSeats(middleInfo);
     generateSeats(rightInfo);
-    markSeats();
+    //markSeats();
     console.info(occupied + "/" + total);
 
     function generateSeats(info) {
