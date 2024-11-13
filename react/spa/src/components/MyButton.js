@@ -8,6 +8,9 @@ function MyButton({label}) {
   // it is similar to composables in Vue 3 which be called in the setup function
   const [count, setCount] = useState(0);
 
+  // Under restrict mode, the render function will be called twice
+  console.log("MyButton render");
+
   function handleClick() {
     setCount(count + 1);
   }

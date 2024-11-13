@@ -4,6 +4,8 @@ import Profile from "./components/Profile";
 import ProductList from "./components/ProductList";
 import Game from "./components/Game";
 import FilterableProductTable from './components/FilterableProductTable';
+import Timer from './components/Clock';
+import Counter3 from './components/Counter3';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
       <ProductList />
       <Game />
       <FilterableProductTable />
+      <Timer />
+      <Counter3 />
     </div>
   );
   }
