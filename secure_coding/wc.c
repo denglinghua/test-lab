@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
  
 #define BUFSIZE 256
     
@@ -11,6 +12,13 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Please provide the address of a file as an input.\n");
         return -1;
     }
+
+    // Check if the file exists and is readable
+    if (access(argv[1], F_OK) == -1) {
+        fprintf(stderr, "The file does not exist.\n");
+        return -1;
+    }
+    
     char cmd[BUFSIZE] = "wc -c < ";
     strcat(cmd, argv[1]);
     system(cmd);
