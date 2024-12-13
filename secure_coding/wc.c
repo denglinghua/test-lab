@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
- 
+
 #define BUFSIZE 256
-    
+
 // This program prints the size of a specified file in bytes
 int main(int argc, char** argv) {
     // Ensure that the user supplied exactly one command line argument
@@ -19,7 +19,20 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    char cmd[BUFSIZE] = "wc -c < ";
-    strncat(cmd, argv[1], BUFSIZE - strlen(cmd) - 1);
-    system(cmd);
+    // Open the file
+    FILE *file = fopen(argv[1], "rb");
+    if (file == NULL) {
+        fprintf(stderr, "Failed to open the file.\n");
+        return -1;
+    }
+
+    // Get the file size
+    fseek(file, 0, SEEK_END);
+    long fileSize = ftell(file);
+    fclose(file);
+
+    // Print the file size in the way that the wc command does
+    printf("    %ld\n", fileSize);
+
+    return 0;
 }
