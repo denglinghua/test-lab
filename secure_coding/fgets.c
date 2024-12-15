@@ -1,7 +1,4 @@
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 #define BUFSIZE 32
 
@@ -11,6 +8,7 @@
 // end of file (EOF) is reached.
 // fgets terminates at the newline character but appends it at the end of the string str. 
 // The function also appends the terminating null character at the end of the passed string.
+// return s on success, and NULL on error or when end of file occurs while no characters have been read.
 int read_file(const char *filename) {
     FILE* ptr = fopen(filename, "r");
     

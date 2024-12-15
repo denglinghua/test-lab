@@ -1,2 +1,4 @@
 main
 /test
+/codeql-custom-queries-cpp
+_codeql_detected_source_root
