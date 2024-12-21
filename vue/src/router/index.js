@@ -67,6 +67,11 @@ const router = createRouter({
       path: '/propchange',
       name: 'propchange',
       component: () => import('../views/PropChangeView.vue')
+    },
+    {
+      path: '/productgrid',
+      name: 'productgrid',
+      component: () => import('../views/ProductGrid.vue')
     }
   ]
 })
