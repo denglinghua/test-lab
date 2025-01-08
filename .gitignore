@@ -14,3 +14,4 @@ vip_seats.js
 /bin/
 /out/
 .ipynb_checkpoints/
+node_modules
