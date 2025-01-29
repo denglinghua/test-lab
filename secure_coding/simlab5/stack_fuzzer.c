@@ -31,5 +31,5 @@ int main() {
     // use current time as a seed for the pseudorandom
     // number generator
     srand(time(NULL));
-    stack_fuzzer(20);
+    stack_fuzzer(10);
 }

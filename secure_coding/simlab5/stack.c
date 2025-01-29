@@ -29,12 +29,20 @@ int isFull(struct Stack *stack) {
 
 // Function to push an element onto the stack
 void push(struct Stack *stack, int value) {
+    if (isFull(stack)) {
+        printf("push full stack\n");
+        return;
+    }
     stack->top++;
     stack->items[stack->top] = value;
 }
 
 // Function to pop an element from the stack
 int pop(struct Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("pop empty stack\n");
+        return -1;
+    }
     int poppedItem = stack->items[stack->top];
     stack->top--;
     return poppedItem;
@@ -42,6 +50,10 @@ int pop(struct Stack *stack) {
 
 // Function to get the top element of the stack without popping
 int peek(struct Stack *stack) {
+    if (isEmpty(stack)) {
+        printf("peek empty stack\n");
+        return -1;
+    }
     return stack->items[stack->top];
 }
 
@@ -60,6 +72,8 @@ int main() {
     int value = 0;
 
     while (status != NULL) {
+        printf("Command: %s", command);
+
         if (strcmp(command, "ISEMPTY\n") == 0) {
             if (isEmpty(&myStack))
                 printf("Stack is empty\n");
