@@ -63,18 +63,37 @@ class BinarySearchTree:
 # Initializing
 bst = BinarySearchTree()
 
+def insert(key):
+    bst.insert(key)
+    print(f"{key} inserted in the BST.")
+
+def search(key):
+    result = bst.search(key)
+    if result:
+        print(f"{key} found in the BST.")
+    else:
+        print(f"{key} not found in the BST.")
+
+def delete(key):
+    bst.delete(key)
+    print(f"{key} deleted from the BST.")
+
 # Inserting
-key = 10
-bst.insert(key)
-print(f"{key} inserted in the BST.")
+insert(10)
+insert(5)
+insert(2)
+insert(16)
+insert(12)
+insert(18)
 
 # Searching
-result = bst.search(key)
-if result:
-    print(f"{key} found in the BST.")
-else:
-    print(f"{key} not found in the BST.")
+search(5)
+search(16)
+search(10)
+search(2025)
 
 # Deleting
-bst.delete(key)
-print(f"{key} deleted from the BST.")
+delete(5)
+delete(16)
+delete(10)
+delete(2025)

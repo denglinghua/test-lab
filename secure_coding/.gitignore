@@ -5,3 +5,4 @@ _codeql_detected_source_root
 *.dSYM
 obj
 *.obj
+.coverage
