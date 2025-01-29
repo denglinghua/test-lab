@@ -1,2 +1,2 @@
 all:
-	gcc -o main wc.c 
+	gcc -o main cgt1.c 
