@@ -86,7 +86,7 @@ NOTE: REQUIRED FIELDS=(*)
   </div>
   <div class="form-element"></div>
 </div>
-<label> Your Message (Please share any additional information. For CBMF reservations, please provide the names of all individuals staying at your site.)
+<label> Your Message (Please share any additional information. For Cavendish Beach Music Festival (CBMF) reservations, please provide the names of all individuals staying at your site.)
     [textarea your-message 40x5] </label>
 
 [submit "Submit"]
