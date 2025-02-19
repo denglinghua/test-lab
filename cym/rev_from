@@ -71,11 +71,11 @@ NOTE: REQUIRED FIELDS=(*)
 </div>
 <div class="form-row">
   <div class="form-element">
-    <label> Number of Children (under 16) and Their Ages per Site
-        [text number-of-children] </label>
+    <label> Number of Children (under 16) and Their Ages per Site*
+        [text* number-of-children] </label>
   </div>
   <div class="form-element">
-    <label> Bringing Pets (Please specify species and number)*
+    <label> Bringing Pets (Please specify species and number)
         [text pets] </label>
   </div>
 </div>
