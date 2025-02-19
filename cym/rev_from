@@ -2,7 +2,7 @@ NOTE: REQUIRED FIELDS=(*)
 <div class="form-row">
   <div class="form-element">
     <label> Full Name*
-    [text* your-name] </label>
+    [text* full-name] </label>
   </div>
   <div class="form-element">
     <label> Prov/State*
@@ -12,64 +12,80 @@ NOTE: REQUIRED FIELDS=(*)
 <div class="form-row">
   <div class="form-element">
     <label> Postal Code*
-    [text* your-zip placeholder "000 000"] </label>
+    [text* postal-code placeholder "000 000"] </label>
   </div>
   <div class="form-element">
     <label> Phone*
-    [tel* tel-155 placeholder "000-000-0000"] </label>
+    [tel* phone placeholder "000-000-0000"] </label>
   </div>
 </div>
 <div class="form-row">
   <div class="form-element">
     <label> Email* 
-    [email* your-email] </label>
+    [email* email] </label>
   </div>
   <div class="form-element">
-    <label> Equipment Type*
-    [select* menu-jw001 include_blank "Motorhome with Towing" "Motorhome" "Fifth Wheel" "Tent trailer" "Travel trailer" "Pickup camper" "Pop-up camper" "Van" "Bike/Motorcycle" "Tent" "Other"] </label>
+    <label> Have You Stayed With Us Before? *
+    [select* stayed-before include_blank "Yes" "No"] </label>
   </div>
 </div>
 <div class="form-row">
   <div class="form-element">
     <label> Arrival Date*
-     [date* date-265] </label>
+     [date* arrival-date] </label>
   </div>
   <div class="form-element">
     <label> Departure Date*
-    [date* date-819] </label>
+    [date* departure-date] </label>
   </div>
 </div>
 <div class="form-row">
   <div class="form-element">
-   <label> Type of Site Required*
-    [select* menu-524 include_blank "3-Way (50 amp) for RV's" "3-Way (30 amp) for RV's" "3-Way (20 amp) for RV's" "2-Way for tents/ pop-ups" "Un-serviced for tents" "Multiple site types" "Not Sure"] </label>
+   <label> Type of Site*
+    [select* type-of-site include_blank "3-Way (50 amp) for RV's" "3-Way (30 amp) for RV's" "3-Way (20 amp) for RV's" "2-Way for tents/ pop-ups" "Un-serviced for tents" "Multiple site types" "Not Sure"] </label>
   </div>
   <div class="form-element">
-   <label> Number of sites required*
-    [select* menu-523 include_blank "1" "2" "3" "4 or more" "Not Sure"] </label>
+   <label> Number of Sites*
+    [select* number-of-sites include_blank "1" "2" "3" "4 or more" "Not Sure"] </label>
+  </div>
+</div>
+<div class="form-row">
+    <div class="form-element">
+        <label> Equipment Type*
+            [select* equipment-type include_blank "Motorhome with Towing" "Motorhome" "Fifth Wheel" "Tent trailer" "Travel trailer" "Pickup camper" "Pop-up camper" "Van" "Bike/Motorcycle" "Tent" "Other"] </label>
+    </div>
+    <div class="form-element">
+        <label> RV Length(1-50)
+        [text rv-length] </label>
   </div>
 </div>
 <div class="form-row">
   <div class="form-element">
-   <label> RV Length(1-99ft)
-    [text Rv-length] </label>
+    <label> Number of Adults per Site*
+        [select* number-of-adults include_blank "1" "2" "3" "4" "5" "6" "6+" "Not Sure"] </label>
   </div>
   <div class="form-element">
-   <label> Number of Adults per Site*
-    [select* menu-525 include_blank "1" "2" "3" "4" "5" "6" "6+" "Not Sure"] </label>
+    <label> Number of Vehicles You Will Bring*
+        [select* number-of-vehciles include_blank "1" "2" "3" "More" "Not Sure"]</label>
   </div>
 </div>
 <div class="form-row">
   <div class="form-element">
-     <label> Number of Children (under 16) and Their Ages per Site
-    [text menu-526] </label>
+    <label> Number of Children (under 16) and Their Ages per Site
+        [text number-of-children] </label>
   </div>
   <div class="form-element">
-    <label> Bringing Pets (Please specify species and number)
-    [text pets] </label>
+    <label> Bringing Pets (Please specify species and number)*
+        [text pets] </label>
   </div>
 </div>
-<label> Your Message (Please include the number of vehicles you will bring, expected visitors during your stay, and any other information. For CBMF reservations, please provide the names of all individuals staying at your site.)
+<div class="form-row">
+  <div class="form-element">
+    <label> Expected Visitors During Your Stay
+        [text expected-visitors] </label>
+  </div>
+</div>
+<label> Your Message (Please share any additional information. For CBMF reservations, please provide the names of all individuals staying at your site.)
     [textarea your-message 40x5] </label>
 
 [submit "Submit"]
