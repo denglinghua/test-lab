@@ -41,11 +41,11 @@ NOTE: REQUIRED FIELDS=(*)
 </div>
 <div class="form-row">
   <div class="form-element">
-   <label> Type of Site*
+   <label> Type of Site Required*
     [select* type-of-site include_blank "3-Way (50 amp) for RV's" "3-Way (30 amp) for RV's" "3-Way (20 amp) for RV's" "2-Way for tents/ pop-ups" "Un-serviced for tents" "Multiple site types" "Not Sure"] </label>
   </div>
   <div class="form-element">
-   <label> Number of Sites*
+   <label> Number of Sites Required*
     [select* number-of-sites include_blank "1" "2" "3" "4 or more" "Not Sure"] </label>
   </div>
 </div>
@@ -55,7 +55,7 @@ NOTE: REQUIRED FIELDS=(*)
             [select* equipment-type include_blank "Motorhome with Towing" "Motorhome" "Fifth Wheel" "Tent trailer" "Travel trailer" "Pickup camper" "Pop-up camper" "Van" "Bike/Motorcycle" "Tent" "Other"] </label>
     </div>
     <div class="form-element">
-        <label> RV Length(1-50)
+        <label> RV Length(1-50ft)
         [text rv-length] </label>
   </div>
 </div>
@@ -84,6 +84,7 @@ NOTE: REQUIRED FIELDS=(*)
     <label> Expected Visitors During Your Stay
         [text expected-visitors] </label>
   </div>
+  <div class="form-element"></div>
 </div>
 <label> Your Message (Please share any additional information. For CBMF reservations, please provide the names of all individuals staying at your site.)
     [textarea your-message 40x5] </label>
